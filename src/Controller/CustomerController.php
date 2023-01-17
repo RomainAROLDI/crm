@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Customer;
 use App\Form\CustomerType;
+use App\Form\CreateCustomerType;
 use App\Model\PaginatedDataModel;
 use App\Repository\CustomerRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -61,4 +62,23 @@ class CustomerController extends AbstractController
             'form' => $form
         ]);
     }
+    #[Route('clients/creer', name: 'app_customer_create')]
+    public function createUser(Request $request,CustomerRepository $customerRepository): Response
+    {
+        $customer = new Customer();
+
+        $form = $this->createForm(CreateCustomerType::class, $customer);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->persist($customer);
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('app_customer');
+        }
+
+        return $this->render('customer/creer.html.twig',[
+            'form' => $form->createView(),
+        ]);
+        }
+
 }
