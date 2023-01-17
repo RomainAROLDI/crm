@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Customer;
+use App\Form\CustomerType;
 use App\Form\CreateCustomerType;
 use App\Model\PaginatedDataModel;
 use App\Repository\CustomerRepository;
@@ -43,6 +44,24 @@ class CustomerController extends AbstractController
         ]);
     }
 
+    #[Route('/client/edit/{id}', name: 'app_update_customer', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Customer $customer): Response
+    {
+        $form = $this->createForm(CustomerType::class, $customer);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('app_customer');
+        }
+
+        return $this->renderForm('customer/edit.html.twig', [
+            'customer' => $customer,
+            'form' => $form
+        ]);
+    }
     #[Route('clients/creer', name: 'app_customer_create')]
     public function createUser(Request $request,CustomerRepository $customerRepository): Response
     {
