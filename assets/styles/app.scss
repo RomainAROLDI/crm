@@ -1,0 +1,10 @@
+@import '_variables.scss';
+@import '~bootstrap/scss/bootstrap.scss';
+
+body {
+    background-color: #fefefe;
+}
+
+li.active {
+    background-color: $primary;
+}

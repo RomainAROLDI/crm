@@ -1,0 +1,14 @@
+{% set app_route = app.request.get('_route') %}
+
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 100vh">
+    <span class="fs-4 text-center">CRM by TIBO</span>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item {% if app_route == 'app_customer' %}active{% endif %}">
+            <a class="nav-link text-white" href="{{ path('app_customer') }}">Clients</a>
+        </li>
+        <li class="nav-item {% if app_route == 'app_company' %}active{% endif %}">
+            <a class="nav-link text-white" href="{{ path('app_company') }}">Entreprises</a>
+        </li>
+    </ul>
+</div>
