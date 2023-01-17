@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Customer;
+use App\Form\CustomerType;
+use App\Form\CreateCustomerType;
 use App\Model\PaginatedDataModel;
 use App\Repository\CustomerRepository;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CustomerController extends AbstractController
 {
@@ -41,6 +44,7 @@ class CustomerController extends AbstractController
         ]);
     }
 
+
     #[Route('/clients/delete/{id}', name: 'app_customer_delete', methods: ['POST'])]
     public function deleteUser(int $id): Response
     {
@@ -59,4 +63,41 @@ class CustomerController extends AbstractController
 
         return $this->redirectToRoute('app_customer', [], 301);
     }
+
+    #[Route('/client/edit/{id}', name: 'app_update_customer', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Customer $customer): Response
+    {
+        $form = $this->createForm(CustomerType::class, $customer);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('app_customer');
+        }
+
+        return $this->renderForm('customer/edit.html.twig', [
+            'customer' => $customer,
+            'form' => $form
+        ]);
+    }
+    #[Route('clients/creer', name: 'app_customer_create')]
+    public function createUser(Request $request,CustomerRepository $customerRepository): Response
+    {
+        $customer = new Customer();
+
+        $form = $this->createForm(CreateCustomerType::class, $customer);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->persist($customer);
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('app_customer');
+        }
+
+        return $this->render('customer/creer.html.twig',[
+            'form' => $form->createView(),
+        ]);
+        }
 }
