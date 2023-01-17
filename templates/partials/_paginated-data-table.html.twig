@@ -14,6 +14,11 @@
             {% for prop_header, prop_name in data.props %}
                 <td>{{ attribute(item, prop_name) }}</td>
             {% endfor %}
+            <td>
+                <form method="post" action="{{ path('app_customer_delete', {('id'): item.id}) }}">
+                    <button type="submit">Supprimer</button>
+                </form>
+            </td>
         </tr>
     {% endfor %}
     </tbody>
