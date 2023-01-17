@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier un client{% endblock %}
+
+{% block body %}
+    <div class="justify-content-center">
+        <h1 class="mt-3 mb-5 text-center">Modifier un client</h1> 
+
+        {% include 'customer/form.html.twig' %}
+
+        <div class="d-flex justify-content-end align-items-baseline mt-1 mb-3 pe-4">
+            <button class="btn btn-primary">Confirmer</button>
+        </div>
+    </div>
+{% endblock %}
