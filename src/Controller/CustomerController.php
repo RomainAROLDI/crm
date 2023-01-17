@@ -42,10 +42,19 @@ class CustomerController extends AbstractController
     }
 
     #[Route('/clients/delete/{id}', name: 'app_customer_delete', methods: ['POST'])]
-    public function deleteUser(Request $request, int $id): Response
+    public function deleteUser(int $id): Response
     {
         if (!empty($id)) {
-            $this->customerRepository->remove($this->customerRepository->find($id), true);
+            $customer = $this->customerRepository->find($id);
+            if (empty($customer)) {
+                $this->addFlash('error', "Le client n'existe pas dans la base de données.");
+            } else {
+                $this->addFlash('success', 'Le client ' . $customer->getFirstName() . ' ' . $customer->getLastName() .
+                    ' (#' . $customer->getId() . ') a bien été supprimé.');
+                $this->customerRepository->remove($customer, true);
+            }
+        } else {
+            $this->addFlash('error', 'Une erreur est survenue, veuillez réessayer.');
         }
 
         return $this->redirectToRoute('app_customer', [], 301);
