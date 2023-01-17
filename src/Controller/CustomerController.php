@@ -40,4 +40,14 @@ class CustomerController extends AbstractController
             ]))->getData()
         ]);
     }
+
+    #[Route('/clients/delete/{id}', name: 'app_customer_delete', methods: ['POST'])]
+    public function deleteUser(Request $request, int $id): Response
+    {
+        if (!empty($id)) {
+            $this->customerRepository->remove($this->customerRepository->find($id), true);
+        }
+
+        return $this->redirectToRoute('app_customer', [], 301);
+    }
 }
