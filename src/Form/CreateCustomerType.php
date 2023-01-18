@@ -19,9 +19,6 @@ class CreateCustomerType extends AbstractType
             ->add('company')
             ->add('job')
             ->add('createdBy')
-            ->add('save', SubmitType::class, [
-                'label' => 'Créer',
-            ])
         ;
     }
 

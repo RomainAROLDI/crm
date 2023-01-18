@@ -3,34 +3,6 @@
 {% block title %}Modification Client{% endblock %}
  
 {% block body %}
-    <div class="container">
-        <h2 class="text-center mt-5 mb-3">Modification Client</h2>
-        <div class="card">
-            <div class="card-body">
-                {{ form_start(form) }}
-                    <div class="form-group">
-                        {{ form_row(form.lastName, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_row(form.firstName, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_row(form.company, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_row(form.job, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_row(form.createdBy, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-
-                    <button class="btn btn-primary mt-3">Sauvegarder les modification</button>
-                {{ form_end(form) }}
-            </div>
-        </div>
-    </div>
+    {% include "customer/form.html.twig" with {'title' : 'Modification d\'un client', 'bouton_libelle' : 'Sauvegarder les modifications'} %}
 {% endblock %}
 

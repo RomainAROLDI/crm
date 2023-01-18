@@ -13,7 +13,7 @@
 
         <div class="d-flex justify-content-between align-items-baseline mt-1 mb-3">
             <div class="pagination">{{ knp_pagination_render(paginated_data.items) }}</div>
-            <button class="btn btn-primary">Ajouter un client</button>
+            <a href="{{ path('app_customer_create') }}"><button class="btn btn-primary">Ajouter un client</button></a>
         </div>
     </div>
 {% endblock %}
