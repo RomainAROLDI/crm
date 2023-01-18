@@ -12,16 +12,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Security;
 
 class CustomerController extends AbstractController
 {
     private CustomerRepository $customerRepository;
     private PaginatorInterface $pagination;
+    private Security $security;
 
-    public function __construct(CustomerRepository $customerRepository, PaginatorInterface $pagination)
+    public function __construct(CustomerRepository $customerRepository, PaginatorInterface $pagination, Security $security)
     {
         $this->customerRepository = $customerRepository;
         $this->pagination = $pagination;
+        $this->security = $security;
     }
 
     #[Route('/clients', name: 'app_customer')]
@@ -93,17 +96,21 @@ class CustomerController extends AbstractController
     }
 
     #[Route('clients/creer', name: 'app_customer_create')]
-    public function createUser(Request $request, CustomerRepository $customerRepository): Response
+    public function createUser(Request $request): Response
     {
         $customer = new Customer();
 
         $form = $this->createForm(CreateCustomerType::class, $customer);
-
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->persist($customer);
-            $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('app_customer');
+
+            $customer->setCreatedBy($this->security->getUser());
+            $this->customerRepository->save($customer, true);
+            $this->addFlash('success', 'Le client ' . $customer->getFirstName() . ' ' . $customer->getLastName() .
+                ' a bien été ajouté.');
+
+            return $this->redirectToRoute('app_customer', [], 301);
         }
 
         return $this->render('customer/creer.html.twig', [
