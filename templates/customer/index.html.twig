@@ -9,7 +9,7 @@
 
         {% include 'partials/_alert.html.twig' %}
 
-        {% include 'partials/_paginated-data-table.html.twig' with {'data':paginated_data} %}
+        {% include 'partials/_paginated-data-table.html.twig' with {'data':paginated_data, 'page':'customer'} %}
 
         <div class="d-flex justify-content-between align-items-baseline mt-1 mb-3">
             <div class="pagination">{{ knp_pagination_render(paginated_data.items) }}</div>
