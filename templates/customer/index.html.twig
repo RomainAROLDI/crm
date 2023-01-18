@@ -4,10 +4,10 @@
 
 {% block body %}
 
-    {% include 'partials/_alert.html.twig' %}
-
     <div class="justify-content-center">
         <h1 class="my-4">Clients</h1>
+
+        {% include 'partials/_alert.html.twig' %}
 
         {% include 'partials/_paginated-data-table.html.twig' with {'data':paginated_data} %}
 
