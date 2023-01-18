@@ -1,6 +1,6 @@
 {% set app_route = app.request.get('_route') %}
 
-<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 100vh">
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark min-vh-100" style="width: 280px">
     <span class="fs-4 text-center">CRM by TIBO</span>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
@@ -11,4 +11,10 @@
             <a class="nav-link text-white" href="{{ path('app_company') }}">Entreprises</a>
         </li>
     </ul>
+    <hr>
+    <a href="{{path('app_logout')}}">
+        <button class="btn btn-secondary w-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        </button>
+    </a>
 </div>
