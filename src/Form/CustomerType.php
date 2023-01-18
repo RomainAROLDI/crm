@@ -19,8 +19,7 @@ class CustomerType extends AbstractType
             ->add('firstName', TextType::class)
             ->add('email', EmailType::class)
             ->add('company')
-            ->add('job')
-        ;
+            ->add('job');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
