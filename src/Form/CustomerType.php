@@ -17,7 +17,6 @@ class CustomerType extends AbstractType
             ->add('email')
             ->add('company')
             ->add('job')
-            ->add('createdBy')
         ;
     }
 
