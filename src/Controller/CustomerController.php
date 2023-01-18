@@ -64,26 +64,36 @@ class CustomerController extends AbstractController
         return $this->redirectToRoute('app_customer', [], 301);
     }
 
-    #[Route('/client/edit/{id}', name: 'app_update_customer', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Customer $customer): Response
+    #[Route('/client/edit/{id}', name: 'app_customer_update', methods: ['POST'])]
+    public function editUser(Request $request, Customer $customer, int $id): Response
     {
-        $form = $this->createForm(CustomerType::class, $customer);
-        $form->handleRequest($request);
+        if (!empty($id)) {
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $this->getDoctrine()->getManager()->flush();
+            $form = $this->createForm(CustomerType::class, $customer);
+            $form->handleRequest($request);
 
-            return $this->redirectToRoute('app_customer');
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                $this->addFlash('success', 'Le client ' . $customer->getFirstName() . ' ' . $customer->getLastName() .
+                    ' (#' . $customer->getId() . ') a bien été modifié.');
+                $this->customerRepository->save($customer, true);
+
+                return $this->redirectToRoute('app_customer', [], 301);
+            }
+
+            return $this->renderForm('customer/edit.html.twig', [
+                'customer' => $customer,
+                'form' => $form
+            ]);
+
+        } else {
+            $this->addFlash('error', 'Une erreur est survenue, veuillez réessayer.');
+            return $this->redirectToRoute('app_customer', [], 301);
         }
-
-        return $this->renderForm('customer/edit.html.twig', [
-            'customer' => $customer,
-            'form' => $form
-        ]);
     }
+
     #[Route('clients/creer', name: 'app_customer_create')]
-    public function createUser(Request $request,CustomerRepository $customerRepository): Response
+    public function createUser(Request $request, CustomerRepository $customerRepository): Response
     {
         $customer = new Customer();
 
@@ -96,8 +106,8 @@ class CustomerController extends AbstractController
             return $this->redirectToRoute('app_customer');
         }
 
-        return $this->render('customer/creer.html.twig',[
+        return $this->render('customer/creer.html.twig', [
             'form' => $form->createView(),
         ]);
-        }
+    }
 }
