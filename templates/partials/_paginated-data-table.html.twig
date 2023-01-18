@@ -3,7 +3,7 @@
     <tr>
         <th>{{ knp_pagination_sortable(data.items, 'Id', 'c.id') }}</th>
         {% for prop_header, prop_name in data.props %}
-            <th>{{ knp_pagination_sortable(data.items, prop_header, prop_name) }}</th>
+            <th>{{ knp_pagination_sortable(data.items, prop_header, 'c.' ~  prop_name) }}</th>
         {% endfor %}
         <th>Actions</th>
     </tr>
@@ -37,7 +37,6 @@
                             </svg>
                         </button>
                     </form>
-
                 </div>
             </td>
         </tr>
