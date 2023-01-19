@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Customer;
-use App\Form\CustomerType;
-use App\Form\CreateCustomerType;
+use App\Form\CustomerFormType;
 use App\Model\PaginatedDataModel;
 use App\Repository\CustomerRepository;
+use App\Service\CustomerService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,20 +28,22 @@ class CustomerController extends AbstractController
     }
 
     #[Route('/clients', name: 'app_customer')]
-    public function index(Request $request): Response
+    public function index(Request $request, CustomerService $service): Response
     {
         $items = $this->pagination->paginate(
-            $this->customerRepository->getPaginationQuery(),
+            $service->getAllQuery(),
             $request->query->getInt('page', 1),
             10
         );
 
         return $this->render('customer/index.html.twig', [
             'paginated_data' => (new PaginatedDataModel($items, [
+                'Id' => 'id',
                 'Prénom' => 'firstName',
                 'Nom' => 'lastName',
                 'Email' => 'email',
-                'Entreprise' => 'company',
+                'Entreprise' => 'companyName',
+                'Poste' => 'jobTitle',
                 'Créé par' => 'createdBy'
             ]))->getData()
         ]);
@@ -72,7 +74,7 @@ class CustomerController extends AbstractController
     {
         if (!empty($id)) {
 
-            $form = $this->createForm(CustomerType::class, $customer);
+            $form = $this->createForm(CustomerFormType::class, $customer);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -84,9 +86,12 @@ class CustomerController extends AbstractController
                 return $this->redirectToRoute('app_customer', [], 301);
             }
 
-            return $this->renderForm('customer/edit.html.twig', [
+            return $this->renderForm('form.html.twig', [
                 'customer' => $customer,
-                'form' => $form
+                'form' => $form,
+                'title' => 'Modification d\'un client',
+                'bouton_libelle' => 'Sauvegarder les modifications',
+                'route_name' => 'app_customer'
             ]);
 
         } else {
@@ -100,7 +105,7 @@ class CustomerController extends AbstractController
     {
         $customer = new Customer();
 
-        $form = $this->createForm(CustomerType::class, $customer);
+        $form = $this->createForm(CustomerFormType::class, $customer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -113,8 +118,11 @@ class CustomerController extends AbstractController
             return $this->redirectToRoute('app_customer', [], 301);
         }
 
-        return $this->render('customer/creer.html.twig', [
+        return $this->render('form.html.twig', [
             'form' => $form->createView(),
+            'title' => 'Ajout d\'un client',
+            'bouton_libelle' => 'Ajouter un client',
+            'route_name' => 'app_customer'
         ]);
     }
 }

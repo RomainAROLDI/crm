@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <div class="container d-flex flex-column align-items-center">
+        <h2 class="my-5">{{ title }}</h2>
+        <div class="card col-4">
+            <div class="card-body">
+                {{ form_start(form) }}
+                {{ form_rest(form) }}
+                <div class="d-flex flex-row justify-content-between mt-5">
+                    <a href="{{ path(route_name) }}">
+                        <button type="button" class="btn btn-secondary">Annuler</button>
+                    </a>
+                    <button type="submit" class="btn btn-primary">{{ bouton_libelle }}</button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
