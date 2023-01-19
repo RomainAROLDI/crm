@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Company;
 use App\Entity\Customer;
+use App\Entity\Job;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -29,7 +30,7 @@ class AppFixtures extends Fixture
         $user->setPassword($this->hasher->hashPassword($user, 'toto'));
         $manager->persist($user);
 
-        for ($i = 0; $i < 500; $i++) {
+        for ($i = 0; $i < 200; $i++) {
             $customer = new Customer();
             $customer->setFirstName('Client ' . $i);
             $customer->setLastName('Doe');
@@ -47,6 +48,11 @@ class AppFixtures extends Fixture
             $company->addCustomer($customer);
 
             $manager->persist($company);
+
+            $job = new Job();
+            $job->setTitle('Poste ' . $i);
+
+            $manager->persist($job);
         }
 
         $manager->flush();

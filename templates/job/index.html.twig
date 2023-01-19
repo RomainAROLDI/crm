@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Clients{% endblock %}
+{% block title %}Postes{% endblock %}
 
 {% block body %}
 
     <div class="justify-content-center">
-        <h1 class="my-4">Clients</h1>
+        <h1 class="my-4">Postes</h1>
 
-        {% include 'partials/_paginated-data-table.html.twig' with {'data':paginated_data, 'page':'customer'} %}
+        {% include 'partials/_paginated-data-table.html.twig' with {'data':paginated_data, 'page':'job'} %}
 
         <div class="d-flex justify-content-between align-items-baseline mt-1 mb-3">
             <div class="pagination">{{ knp_pagination_render(paginated_data.items) }}</div>
-            <a href="{{ path('app_customer_create') }}">
-                <button class="btn btn-primary">Ajouter un client</button>
+            <a href="{{ path('app_job_create') }}">
+                <button class="btn btn-primary">Ajouter un poste</button>
             </a>
         </div>
     </div>

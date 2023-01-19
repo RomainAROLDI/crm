@@ -32,6 +32,7 @@ class CompanyController extends AbstractController
 
         return $this->render('company/index.html.twig', [
             'paginated_data' => (new PaginatedDataModel($items, [
+                'Id' => 'id',
                 'Siret' => 'siret',
                 'Nom' => 'name',
                 'Adresse' => 'street',
