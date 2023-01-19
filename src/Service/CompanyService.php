@@ -50,7 +50,7 @@ class CompanyService implements AppServiceInterface
 
     }
 
-    public function delete()
+    public function delete(int $id)
     {
 
     }

@@ -43,7 +43,7 @@ class JobService implements AppServiceInterface
 
     }
 
-    public function delete()
+    public function delete(int $id)
     {
 
     }

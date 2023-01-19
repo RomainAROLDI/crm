@@ -9,9 +9,5 @@ interface AppServiceInterface
 
     public function get(int $id);
 
-    public function create();
-
-    public function update();
-
-    public function delete();
+    public function delete(int $id);
 }
